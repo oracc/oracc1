@@ -1,0 +1,3 @@
+#!/bin/sh
+@@ORACC@@/bin/backup-list.plx \
+    | tar -Jcf /oraccbak/oracc-full-`date +%Y-%m-%d`.tar.xz -T -

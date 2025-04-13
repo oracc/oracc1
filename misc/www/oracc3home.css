@@ -1,0 +1,21 @@
+body.hp { font-family: Serif; font-size: 15pt; width: 700px; }
+
+#Menu   { padding-top: 12pt; font-size: 15pt; }
+
+div.item { }
+
+#FooterLeft { font-size: 12pt; }
+
+#hp_blurb { color: #666; }
+
+.o3banner { background-color: #336; color: yellow; 
+	    padding-top: 5pt; padding-bottom: 5pt; 
+	    padding-left: 3px;
+	    border-top: 4px solid #fc0; 
+	    border-bottom: 4px solid #fc0; 
+	    margin-bottom: 10px; 
+	  }
+
+.o3banner h1 { background-color: #336; color: #fff; font-size: 20pt; font-weight: normal; }
+
+.o3banner a { color: #fff; }

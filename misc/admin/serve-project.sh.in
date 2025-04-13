@@ -1,0 +1,112 @@
+#!/bin/sh
+. @@ORACC@@/bin/oraccenv.sh
+#printenv | grep -i oracc
+
+project=$1
+subs=$2
+
+if [ "$project" == "" ]; then
+    echo "serve-project.sh: must give project as argument"
+    exit 1
+fi
+if [ ! -d ${ORACC_BUILDS}/$project ]; then
+    echo "serve-project.sh: $project is not a project in Oracc dir '${ORACC_BUILDS}'"
+    exit 1
+fi
+if [ ! -f ${ORACC_BUILDS}/$project/01bld/buildstamp ]; then
+    echo "serve-project.sh: $project has no buildstamp--please run 'oracc build'"
+    exit 1
+fi
+echo "ORACC_SERVE_STAGE = ${ORACC_SERVE_STAGE}"
+projfile=`/bin/echo -n $project | tr / -`
+if [ "$ORACC_SERVE_STAGE" == "" ]; then
+    srvdir=${ORACC_BUILDS}/www/srv
+else
+    echo "serve-project.sh: setting srvdir to $ORACC_SERVE_STAGE"
+    srvdir=${ORACC_SERVE_STAGE}
+fi
+tarball=$srvdir/${projfile}.part
+tarballfinal=$srvdir/${projfile}.tar.xz
+mkdir -p $srvdir
+
+echo "serve-project.sh: generating $tarball"
+
+cd ${ORACC_BUILDS}
+rm -f $tarball $tarballfinal
+
+cd $project
+
+jsonmode=`oraccopt . json-mode`
+if [ "$jsonmode" == "manual" ]; then
+    echo "JSON mode == manual, not building JSON as part of oracc serve"
+else
+    o2-json.sh
+fi
+
+hyphproj=`/bin/echo -n $project | tr / -`
+if [ -r ${ORACC_BUILDS}/www/json/$hyphproj.zip ]; then
+    jsonzip="www/json/$hyphproj.zip"
+else
+    jsonzip=""
+fi
+
+if [ "$subs" == "" ]; then
+    servesubs=`oraccopt . serve-subs`
+else
+    servesubs="#all"
+fi
+
+if [ -d signlist ]; then
+    echo $0: found signlist/
+    if [[ "$servesubs" != *"signlist"* ]]; then
+	echo "$0: adding signlist to servesubs '$servesubs'"	
+	servesubs="$servesubs signlist"
+    else
+	echo $0: "did not add signlist to servesubs '$servesubs'"
+    fi
+fi
+
+if [ "$servesubs" == "" ]; then
+    true
+else
+    if [ "$servesubs" == "#all" ]; then
+	allsubs=`list-pub-subs.sh $project`
+	for a in $allsubs ; do
+	    if [ "$a" != "$project" ]; then
+		serve-project.sh $a
+	    fi
+	done
+    else
+	for a in $servesubs ; do
+	    if [ "$a" != "" ]; then
+		serve-project.sh $project/$a
+	    fi
+	done
+    fi
+fi
+
+subs=""
+shopt -s nullglob
+for a in [a-z][a-z0-9][a-z0-9][a-z0-9]*; do
+    subs="$subs --exclude $a"
+done
+
+cd ${ORACC_BUILDS}
+echo serving $project from `pwd`
+echo subs=$subs
+tar --exclude 00any --exclude 00git --exclude 00res --exclude estindex --exclude espdev \
+    --exclude '*.dbi' --exclude '*.dbh' --exclude pqids.lst \
+    $subs \
+    -Jcf $tarball $project/00* {bld,pub,xml,www}/$project $jsonzip
+
+chmod 0644 $tarball
+mv $tarball $tarballfinal
+
+touch ${ORACC_BUILDS}/$project/servestamp
+
+#sudo su -l oradmin -c "put depot /home/oracc/www/srv/aemw-ugarit.tar.xz stash/srv"
+
+if [ -r /home/oradmin/etc/depot.env ]; then
+    echo "$0: serving $tarballfinal to depot:stash/srv"
+    sudo su -l oradmin -c "put depot $tarballfinal stash/srv"
+fi

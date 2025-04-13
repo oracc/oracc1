@@ -1,0 +1,1 @@
+../oracc2/oracc-subst.sh

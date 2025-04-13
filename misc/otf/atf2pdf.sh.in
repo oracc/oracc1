@@ -1,0 +1,61 @@
+#!/bin/sh
+#
+# N.B. THIS SCRIPT IS TO MAKE A PDF FROM A SINGLE ATF FILE
+#
+project=$1
+pqx=$2
+workdir=$3
+
+if [ "$project" == "" ] || [ "$pqx" == "" ] || [ "$workdir" == "" ]; then
+    echo atf2pdf.sh: please give PROJECT PQX-ID PDFDIR on commandline
+    exit 1
+fi
+
+if [ ! -d $workdir ]; then
+    echo atf2pdf.sh: working directory $workdir needs creating
+    exit 1
+fi
+
+atffile=`@@ORACC_BUILDS@@/bin/pqxpand atf $project:$pqx`
+
+if [ ! -r $atffile ]; then
+    echo atf2pdf.sh: ATF file $atffile non-existent or unreadable
+    exit 1
+fi
+
+projhyph=`/bin/echo -n $project | tr / -`
+pdfbase="${projhyph}_$pqx.pdf"
+pdffile="$workdir/${projhyph}_$pqx.pdf"
+
+if [ -r $pdffile ]; then
+    >&2 echo $0: testing $atffile -nt $pdffile
+    if [ $atffile -nt $pdffile ]; then
+	>&2 echo $0: removing $pdffile
+	rm -f $pdffile
+    else
+	>&2 echo $0: returning $pdffile directly
+	/bin/echo -n $pdffile
+	exit 0
+    fi
+else
+    >&2 echo $0: $pdffile not found so not tested vs $atffile
+fi
+
+wdpid="$workdir/$$"
+mkdir -p $wdpid
+
+if [ ! -d $wdpid ]; then
+    echo atf2pdf.sh: working directory $wdpid needs creating
+    exit 1
+fi
+
+PATH=$PATH:@@ORACC_BUILDS@@/bin ; export PATH
+
+pdffile="$pqx.pdf"
+
+>&2 echo $0: Making $project $pqx.pdf in $wdpid
+
+(cd $wdpid ; rm -fr odt ; mkdir -p odt ; \
+ atf-driver.sh $project $pqx $atffile $wdpid ; chmod 0644 *otf* )
+
+exit 0

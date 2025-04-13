@@ -1,0 +1,59 @@
+#!/bin/sh
+
+## Paths for testing serve-install.sh
+#ORACC=/Users/stinney/test-serve-install
+#ORACC_BUILDS=/Users/stinney/test-serve-install
+#ORACC_HOST=dummy
+
+oracc=@@ORACC@@
+oracc_builds=@@ORACC_BUILDS@@
+oracc_host=@@ORACC_HOST@@
+
+export ORACC=$oracc
+export ORACC_BUILDS=$oracc_builds
+export ORACC_HOST=$oracc_host
+export PATH=$ORACC/bin:$PATH
+
+project=$1
+buildserver=$2
+
+if [ "$project" == "" ]; then
+    echo "serve-index.sh: must give project name on command line"
+    exit 1
+fi
+if [ "$buildserver" == "" ]; then
+    echo "serve-index.sh: must give buildserver on command line"
+    exit 1
+fi
+
+logdir=$oracc_builds/log/$project
+mkdir -p $logdir
+logfile=$logdir/serve-index.log
+
+echo "serve-index.sh: indexing $project with logging to $logfile"
+
+exec 1>$logfile
+exec 2>&1
+
+cd $oracc_builds/$project
+$oracc/bin/qindex.sh $project
+
+$oracc/bin/pxtsvdbs.sh
+
+$oracc/bin/pxreset.sh $project
+
+#$oracc/bin/o2-indexes-boot.sh
+# $oracc/bin/est-project-web.sh
+
+cd 02www
+for a in `grep -r -l http://$buildserver *` ; do
+    perl -pi -e "s/$buildserver/$oracc_host/g" $a
+done
+
+if [ "$project" == "cdli" ]; then
+    rm -f $oracc_builds/lib/data/catpnums.vec
+    cp -a $oracc_builds/$project/02pub/catpnums.vec $oracc_builds/lib/data
+fi
+
+touch $oracc_builds/$project/installstamp
+exit 0

@@ -1,0 +1,122 @@
+<?xml version='1.0'?>
+
+<xsl:stylesheet version="1.0" 
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:dc="http://dublincore.org/documents/2003/06/02/dces/"
+  xmlns:xl="http://www.w3.org/1999/xlink"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  exclude-result-prefixes="dc xl">
+
+<xsl:include href="html-util.xsl"/>
+
+<!--    doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN"
+   doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
+ -->
+<xsl:output method="xml" encoding="utf-8"
+   indent="yes"/>
+
+<xsl:template name="make-html">
+  <xsl:param name="project"/>
+  <xsl:param name="webtype" select="''"/>
+  <xsl:param name="title"/>
+  <xsl:param name="onload" select="''"/>
+  <xsl:param name="p2" select="'yes'"/>
+  <xsl:param name="with-hr" select="false()"/>
+  <xsl:param name="with-trailer" select="false()"/>
+  <xsl:param name="standalone" select="false()"/>
+  <xsl:param name="body-class" select="''"/>
+  <xsl:param name="with-epsd1" select="false()"/>
+  <xsl:param name="IDp4Pager" select="false()"/>
+  <xsl:param name="p4Glossary" select="''"/>
+
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <title>
+	<xsl:choose>
+	  <xsl:when test="string-length($title) > 0">
+	    <xsl:value-of select="$title"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:value-of select="*[@name][1]/@name
+				  |ancestor-or-self::*[@name][1]/@name
+				  |ancestor-or-self::*[@dc:title][1]/@dc:title
+				  |*[@dc:title][1]/@dc:title"/>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </title>
+      <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+      <xsl:if test="string-length($project)">
+	<!-- <link rel="stylesheet" type="text/css" href="/{$project}/p3.css" media="screen"/> -->
+	<link rel="stylesheet" type="text/css" href="/{$project}/css/p3colours.css" media="screen"/>
+      </xsl:if>
+      <link rel="stylesheet" type="text/css" href="/css/p4.css" media="screen"/>
+      <link rel="stylesheet" type="text/css" href="/css/p3colours.css" media="screen"/>
+      <xsl:if test="$with-epsd1">
+	<link rel="stylesheet" type="text/css" href="/epsd2/epsd1-cbd.css" />
+	<script src="/epsd2/epsd1-cbd.js" type="text/javascript"><![CDATA[ ]]></script>
+      </xsl:if>
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript">
+	<xsl:text> </xsl:text>
+      </script>
+      <script src="/js/p4.js" type="text/javascript">
+	<xsl:text> </xsl:text>
+      </script>
+      <xsl:if test="not(document('@@ORACC@@/lib/data/usermode.xml')/*/text() = 'single')">
+	<xsl:choose>
+	  <xsl:when test="starts-with('@@ORACC_HOST@@', 'oracc.')"> <!-- http version -->
+<!-- Google tag (gtag.js) -->
+<script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-GWWQE4JWW6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-GWWQE4JWW6');
+
+</script>
+	  </xsl:when>
+	  <xsl:otherwise> <!-- https version -->
+<!-- Google tag (gtag.js) -->
+<script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-0QKC3P5HJ1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0QKC3P5HJ1');
+
+</script>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:if>
+    </head>
+    <body>
+      <xsl:if test="$IDp4Pager">
+	<xsl:attribute name="id"><xsl:text>p4Pager</xsl:text></xsl:attribute>
+	<xsl:attribute name="data-proj"><xsl:value-of select="$project"/></xsl:attribute>
+	<xsl:if test="string-length($p4Glossary)>0">
+	  <xsl:attribute name="data-glos"><xsl:value-of select="$p4Glossary"/></xsl:attribute>
+	</xsl:if>
+      </xsl:if>
+      <xsl:choose>
+	<xsl:when test="string-length($body-class) > 0">
+	  <xsl:attribute name="class"><xsl:value-of select="$body-class"/></xsl:attribute>
+	</xsl:when>
+	<xsl:when test="$standalone">
+	  <xsl:attribute name="class"><xsl:text>standalone</xsl:text></xsl:attribute>
+	</xsl:when>
+      </xsl:choose>
+      <xsl:call-template name="call-back"/>
+      <xsl:if test="$with-hr">
+  	<hr class="trailer"/>
+      </xsl:if>
+      <xsl:if test="$with-trailer">
+	<div class="trailer">
+	</div>
+      </xsl:if>
+    </body>
+  </html>
+</xsl:template>
+
+</xsl:stylesheet>

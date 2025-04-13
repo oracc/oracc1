@@ -1,0 +1,107 @@
+<xsl:transform xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	       xmlns:xh="http://www.w3.org/1999/xhtml"
+	       xmlns:xpd="http://oracc.org/ns/xpd/1.0"
+	       version="1.0">
+
+<xsl:output method="xml" indent="yes"/>
+
+<xsl:template match="/">
+  <html>
+    <head>
+      <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+      <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+      <link rel="stylesheet" type="text/css" href="/css/p3social.css"/>
+      <meta charset="utf-8"/>
+      <title>Oracc Project <xsl:value-of select="/*/@n"/></title>
+    </head>
+    <body class="social">
+      <xsl:apply-templates select="xpd:project"/>
+    </body>
+  </html>
+</xsl:template>
+
+<xsl:template match="xpd:project">
+  <xsl:variable name="img">
+    <xsl:value-of select="concat('/', @n, '/image.png')"/>
+  </xsl:variable>
+  <xsl:variable name="url">
+    <xsl:call-template name="url-name"/>
+  </xsl:variable>
+  <div class="outer">
+  <div>
+    <h1>
+      <a href="{$url}">
+	<xsl:if test="not(contains(translate(xpd:name,'ORACC','oracc'), 'oracc'))">
+	  <xsl:text>Oracc: </xsl:text>
+	</xsl:if>
+	<xsl:value-of select="xpd:name"/>
+      </a>
+    </h1>
+    <p class="proj-img">
+      <a href="{$url}">
+	<img class="project-float" width="320px" height="240px"
+	     src="{$img}"
+	     alt="{xpd:image-alt}"
+	     title="{xpd:image-alt}"
+	     />
+      </a>
+    </p>
+    <p class="proj-blurb">
+      <xsl:choose>
+	<xsl:when test="xpd:blurb/xpd:p">
+	  <xsl:apply-templates mode="blurb" select="xpd:blurb/xpd:p"/>
+	</xsl:when>
+	<xsl:otherwise>
+	  <xsl:apply-templates mode="blurb" select="xpd:blurb"/>
+	</xsl:otherwise>
+      </xsl:choose>
+    </p>
+  </div>
+  <div class="mid"></div>
+  <div class="project-news">
+    <xsl:variable name="news" select="document(concat('@@ORACC@@/www/',/*/@n,'/news/index.html'),/)"/>
+    <xsl:if test="count($news/*) > 0">
+      <h1 class="news">NEWS</h1>
+      <xsl:apply-templates mode="news" select="$news/xh:html/xh:body/xh:div[@id='Content']/*"/>
+    </xsl:if>
+  </div>
+  </div>
+</xsl:template>
+
+<xsl:template mode="news" match="xh:p|xh:h1|xh:h2|xh:h3|xh:ul|xh:ol">
+  <xsl:if test="string-length(.) > 0">
+    <xsl:copy-of select="."/>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template mode="news" match="*|text()"/>
+
+<xsl:template mode="blurb" match="xpd:a">
+  <a>
+    <xsl:copy-of select="@*"/>
+    <xsl:apply-templates/>
+  </a>
+</xsl:template>
+
+<xsl:template mode="blurb" match="xpd:br">
+  <br>
+    <xsl:copy-of select="@*"/>
+  </br>
+</xsl:template>
+
+<xsl:template mode="blurb" match="text()">
+  <xsl:value-of select="."/>
+</xsl:template>
+
+<xsl:template name="url-name">
+  <xsl:choose>
+    <xsl:when test="string-length(xpd:url)>0">
+      <xsl:value-of select="xpd:url"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="concat('/',@n)"/>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+</xsl:transform>

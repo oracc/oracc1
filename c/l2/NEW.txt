@@ -1,0 +1,83 @@
+NEW FORM/SENSE HANDLING WITH DEFAULTS
+
+    * add new concept RANK
+
+    * RANK is given as additional tabbed field after SIG, before FREQ
+
+    * NEW DEFAULTS:
+      - default FORM/WORD: flag on FORM in glossary, for ambig forms this word is chosen
+      - EXPLICIT default SENSE: flag on SENSE in glossary
+      - IMPLICIT default SENSE: always first SENSE given for word
+
+    * SENSE_GW--given after @sense, gives an unambiguous link between GW (or any shortened key) and SENSE
+
+    * IMPLEMENTATION in SIGS
+      - SENSE_GW does not relate to RANK
+      - default FORM/WORD confers highest RANK on sig, RANK=4
+      - EXPLICIT default SENSE confers RANK=2
+      - IMPLICIT default SENSE confers RANK=1
+      - all other SIGS are RANK=0
+
+    * IMPLEMENTATION IN LEMMATIZATION
+      - default FORM/WORD is only for autolem/dynalem
+      - Use SENSE_GW to select SENSE via SENSE_GW; select by idiom [//to]; warn if no matching SENSE_GW (best)
+      - Use empty GW//SENSE to request EXPLICIT or IMPLICIT SENSE, e.g., ana[]
+      - For autolem/dynalem, use EXPLICIT default SENSE first, then use FREQ, then use IMPLICIT default SENSE
+      	if FREQ=0
+
+    * Add new autolem-type option, statlem, to make the lemmatization static, putting each lemmatization
+      on its own line, with full data:
+
+      	 #lem: ana[to//to]$ana;
+	       maru[son/son]$maru
+
+      etc.
+
+USER SYNTAX
+
+    * SENSE_GW : already implemented as @sense N [~worker] a class of worker, and in XML as <sgw>
+
+    * Default FORM/WORD : @form! a /a #~
+
+    * Default WORD, all @forms : @entry! N.B.: this propagates to every @form in entry,
+      no separate flag values are needed
+
+    * EXPLICIT default SENSE : @sense! N [~worker] a class of worker
+
+IMPLEMENTATION DETAIL
+
+    * In l2common/Builtins.pm, sub acd2xml
+      	 - pull ! off $currtag and store
+	 - emit as default="yes" attribute on relevant <sense> or <form>
+    * Add @fields line to .sig format, e.g., @fields sig rank or @fields sig freq inst or @fields sig rank freq inst
+    * In l2phase1/l2p1-simple and friends, parse and store ! on @form and @sense, and emit them as a rank column
+    * Automatically supply RANK=1 on first SENSE unless that is default
+    * Sort lemm-XXX.sig.freq by frequencies (use system sort on freq column)
+    * In sigset reader
+      - require input to be sig rank freq
+      - store RANK as flag(s):
+      	1 = IMPLICIT default SENSE (FORM_IMP_DEF_SENSE)
+	2 = EXPLICIT default SENSE (FORM_EXP_DEF_SENSE)
+	4 = FORM/WORD default      (FORM_FORMWORD_DEF)
+	5 = IMPLICIT & FORM/WORD
+	6 = EXPLICIT & FORM/WORD
+      - preserve ordering of sigs by freq
+    * In autolem/dynalem, apply rules stated above, selecting by RANK, then relying on frequency sort
+      to default down to the most frequent sig
+    * Automatically supply SGW from GW if there only one sense?
+    * How does lemmer find SGW??
+
+DYNALEM
+
+    * For now just look for conventionally named file, a simple FORM\tLEMM table
+    * Load table into hash
+    * In sigs_new vel sim look up FORM and set struct member sublem appropriately
+    * Then let the reset of the lemmer run, including bigram/ngram processing
+    * Add new @collo field to CBD to store info for ngrams inline in .glo; for now this can be ignored
+      in acd2xml and l2p1-simple etc.; just need to grep them out and validate them.
+
+STATLEM
+
+    * Read ATF and execute lemmer, dumping new lemmed ATF in format described above w one lemm per line
+    * How to include LINKTABLE info here, if at all?
+

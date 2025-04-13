@@ -1,0 +1,210 @@
+<!-- 31CP5/77/65-2 0206083-a -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:p3="http://oracc.org/ns/p3/1.0">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="shortcut icon" type="image/ico" href="favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="/css/oraccscreen.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="/css/oraccprint.css" media="print"/>
+    <link rel="stylesheet" type="text/css" href="/css/p3.css" />
+    <link rel="stylesheet" type="text/css" href="/@@project@@/css/p3colours.css" />
+    <link rel="stylesheet" type="text/css" href="/@@project@@/css/projcss.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/transonly_off.css" title="to_off"/>
+    <link rel="stylesheet" type="text/css" href="/css/transonly_on.css" title="to_on"/>
+    <link rel="stylesheet" type="text/css" href="/css/transnone.css" title="transnone"/>
+    <script src="/js/p3.js" type="text/javascript"><![CDATA[ ]]></script>
+    <script src="/js/p3-transonly.js" type="text/javascript"><![CDATA[ ]]></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" type="text/javascript"><![CDATA[ ]]></script>
+@@ga@@
+    <title>@@project@@</title>
+  </head>
+  <body onload="p3_onload(); p3setHeight(); window.onresize=p3setHeight; window.onpageshow=p3_onpageshow">
+    <form id="p3form" action="/@@project@@/pager"
+	  target="_top" method="post" accept-charset="utf-8">
+      <div id="p3controls" class="banner bborder-top bborder-bot">
+
+	<div id="p3navLeft" class="banner">
+
+	  <p id="p3topnav" class="center">
+	    <img class="p3icon" src="/img/p3-help.png" alt="Help" title="Help" id="helpIcon" name="helpIcon" onclick="p3help()"/>
+	    <img class="p3icon spread" src="/img/p3-reset.png" alt="Reset pager" title="Reset pager" id="resetPager" name="resetPager" onclick="window.location='@@referer@@'"/>
+	    <img class="p3icon" src="/img/p3-plus.png" alt="More resources" title="More resources" id="moreIcon" name="moreIcon" onclick="window.location='/@@project@@/hub.html'"/>
+	  </p>
+
+	  <p class="center smash p3-pages">
+	    @@outlines@@
+	  </p>
+
+	</div>
+	
+	<div id="p3navRight" class="banner">
+
+	  <div id="p3srch">
+	    <p class="center">
+	      Oracc Search:
+	      <input type="text" id="srch" name="srch" size="" onchange="document.getElementById('p3do').value='qsrch'" p3:value="@@runtime:srchorig/@@"/>
+
+	      <img class="p3icon" src="/img/p3-search.png" alt="Search" title="Search" id="qsrch" name="qsrch" onclick="p3action('qsrch')"/>
+
+	      <span id="p3charset">(j=ŋ&#xa0;sz=š&#xa0;s,=ṣ&#xa0;t,=ṭ&#xa0;0-9=₀-₉; &apos;=alef)</span>
+
+	      <span id="p3searchIn"> in </span>
+	      
+	      <span id="p3CbdLangDisplay" p3:value="@@cgivar:glosDisplay@@">!cbd/</span>
+	      <span id="p3CbdLang" p3:value="@@cgivar:glos@@">!cbd/</span>
+
+	      <select id="p3srchtype" name="p3srchtype" onchange="p3action('qsrch')">
+		<option value="txt">Transliterations</option>
+		<option value="lem">Lemmatization</option>
+		<option value="tra">Translations</option>
+		<option value="cat">Catalogue</option>
+	      </select>
+
+	      <input type="checkbox" id="unicode" name="unicode" p3:value="@@cgivar:unicode@@"/><span id="p3UnicodeInput">&#xa0;Unicode&#xa0;input</span>
+
+	    </p>
+	  </div>
+
+	  <div id="p3asearch">
+	    <p class="center">
+	      Oracc Advanced Search Results: 
+	      <button type="submit" class="asrch" name="asSubmit" value="edit">revise search</button> 
+	      <button type="submit" class="asrch" name="asSubmit" value="new">new search</button>
+	    </p>
+	  </div>
+
+	  <div id="p3itemnav" class="p3-items p3-noglo">
+	    <p class="p3toccenter bg-dk">
+
+	      <span class="p3arrow">
+		<img class="p3icon" src="/img/p3-pageitem.png" alt="Toggle Page/Item view" title="Toggle Page/Item view" name="p3itemsview" id="p3itemsview"
+			onclick="p3action('viewstatePages')"/>
+	      </span>
+
+	      <span class="p3arrow">
+		<button type="button" name="p3textitems" id="p3textitems"
+			onclick="p3action('itemstateText')"
+			>Text</button>
+		<button type="button" name="p3catitems" id="p3catitems"
+			onclick="p3action('itemstateCat')"
+			>Cat.</button>
+	      </span>
+ 
+	      <span class="p3arrow">
+		<img class="p3icon" src="/img/p3-backward.png" alt="Item back" title="Item back" name="ilarrow" id="ilarrow"
+			onclick="p3action('itemback')"/>
+	      </span>
+	      
+	      <!--Item-->
+	      <input id="item" name="item" type="text" onchange="p3action('itemset')" size="2" p3:value="@@cgivar:item@@"/>
+	      
+	      <span class="p3arrow">
+		<img class="p3icon" src="/img/p3-forward.png" alt="Item forward" title="Item forward" name="irarrow" id="irarrow"
+			onclick="p3action('itemfwd')"/>
+	      </span>
+	      
+	      <span p3:value="@@runtime:items@@"/> Texts
+	      [<span class="resultcount" p3:value="@@runtime:resultcount@@"/> matches]
+
+@@translations@@
+	      <input type="checkbox" onchange="to_toggle()" name="transonly" id="transonly" value="transonly" p3:value="@@cgivar:transonly@@"/>&#xa0;only
+
+	    </p>
+	  </div>
+	  
+	  <div id="p3pagenav" class="p3-pages">
+	    <p class="p3toccenter bg-dk">
+
+	      <span class="p3arrow" id="p3zoom">
+		<button type="submit" name="unzoom" onclick="p3zoom('0')">All Results</button>
+	      </span>
+
+	      <span class="p3arrow">
+		<img class="p3icon" src="/img/p3-pageitem.png" alt="Toggle Page/Item view" title="Toggle Page/Item view" name="p3pagesview" id="p3pagesview"
+			onclick="p3action('viewstateItems')"/>
+	      </span>
+	 
+	      <span class="p3arrow">
+
+		<img class="p3icon" src="/img/p3-backward.png" alt="Page back" title="Page back" name="plarrow" id="plarrow"
+			onclick="p3action('pageback')"/>
+
+	      </span>
+	      
+	      <!--Page-->
+	      <input id="pageset" name="pageset" type="text" onchange="p3action('pageset')" size="2" p3:value="@@cgivar:page@@"/>
+	      <span class="p3arrow">
+		<img class="p3icon" src="/img/p3-forward.png" alt="Page forward" title="Page forward" name="prarrow" id="prarrow"
+			onclick="p3action('pagefwd')"/>
+	      </span>
+
+	      <span p3:value="@@runtime:items@@"/> lines
+	      /
+	      <span p3:value="@@runtime:pages@@"/> Pages
+
+	      [<span class="resultcount" p3:value="@@runtime:resultcount@@"/> matches]
+	      
+	      <span class="cetype">
+		<select id="p3cetype" name="p3cetype"  onchange="p3action('cestate')">
+		  <option value="line">Line</option>
+		  <option value="unit">Sentence</option>
+		  <option value="kwic">KWIC</option>
+		</select>
+	      </span>
+	    </p>
+	  </div>
+
+	  <p class="p3fullscreen">
+	    <img class="p3icon" src="/img/p3-full.png" alt="Toggle full/split screen" onclick="fs_toggle()" name="fullscreen" id="fullscreen"/>
+	  </p>  
+	</div>
+      </div>
+
+      <div id="p3content">
+	<!-- p3-pager.plx inserts the outline and content divs when it sees the following line -->
+	<p>@</p>
+      </div>
+
+      <div class="p3hidden">
+	<input type="hidden" name="arg_item" id="arg_item" p3:value="@@cgivar:arg_item@@"/>
+	<input type="hidden" name="adhoc" p3:value="@@cgivar:adhoc@@"/>
+	<input type="hidden" name="asrch" id="asrch"  p3:value="@@cgivar:asrch@@"/>
+	<input type="hidden" name="cetype" id="cetype" p3:value="@@runtime:cetype/line@@"/>
+	<input type="hidden" name="fscheck" id="fscheck" p3:value="@@cgivar:fullscreen/0@@"/>
+	<input type="hidden" name="glet" id="glet" p3:value="@@cgivar:glet/@@"/>
+	<input type="hidden" name="glos" id="glos" p3:value="@@cgivar:glos/@@"/>
+	<input type="hidden" name="gxis" id="gxis" p3:value="@@cgivar:gxis/@@"/>
+	<input type="hidden" name="items" p3:value="@@runtime:items@@"/>
+	<input type="hidden" name="itemtype" id="itemtype" p3:value="@@runtime:itemtype/off@@"/>
+	<input type="hidden" name="list" id="list" p3:value="@@cgivar:list@@"/>
+	<input type="hidden" name="otlmode" id="otlmode" p3:value="@@runtime:otlmode@@"/>
+	<input type="hidden" name="p3do" id="p3do" value="default"/>
+	<input type="hidden" name="p3mode" id="p3mode" p3:value="@@runtime:mode@@"/>
+	<input type="hidden" name="p3outl" id="p3outl" p3:value="@@runtime:outl/default@@"/>
+	<input type="hidden" name="p3prod" id="p3prod" p3:value="@@runtime:prod@@"/>
+	<input type="hidden" name="p3type" id="p3type" p3:value="@@runtime:type@@"/>
+	<input type="hidden" name="p3what" id="p3what" p3:value="@@runtime:what@@"/>
+	<input type="hidden" name="page" id="page" p3:value="@@cgivar:page/1@@"/>
+	<input type="hidden" name="pages" p3:value="@@runtime:pages@@"/>
+	<input type="hidden" name="pqx_id" id="pqx_id"/>
+	<input type="hidden" name="project" id="project" value="@@project@@"/>
+	<input type="hidden" name="sorttype" id="sorttype" p3:value="@@runtime:sorttype@@"/>
+	<input type="hidden" name="srchtype" id="srchtype" p3:value="@@runtime:srchtype/txt@@"/>
+	<input type="hidden" name="sorttype" id="tmpdir" p3:value="@@runtime:tmpdir@@"/>
+	<input type="hidden" name="transcheck" id="transcheck" p3:value="@@cgivar:transonly/0@@"/>
+	<input type="hidden" name="translation" id="translation" p3:value="@@cgivar:translation/en@@"/>
+	<input type="hidden" name="uimode" id="uimode" p3:value="@@cgivar:uimode@@"/>
+	<input type="hidden" name="unicheck" id="unicheck" p3:value="@@cgivar:unicode/0@@"/>	
+	<input type="hidden" name="uzpage" id="uzpage" p3:value="@@cgivar:uzpage@@"/>
+	<input type="hidden" name="xipage" id="xipage" p3:value="@@cgivar:xipage@@"/>
+	<input type="hidden" name="znext" p3:value="@@runtime:znext@@"/>
+	<input type="hidden" name="zoom" id="zoom" p3:value="@@cgivar:zoom@@"/>
+	<input type="hidden" name="zprev" p3:value="@@runtime:zprev@@"/>
+      </div>
+    </form>
+
+    <div id="p3botbanner" class="banner border-top">
+      <h1>@@projectname@@</h1>
+    </div>
+
+  </body>
+</html>

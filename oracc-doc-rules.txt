@@ -1,0 +1,21 @@
+cssdir = $(prefix)/www/css
+htmldir = $(prefix)/www
+schemadir = $(prefix)/lib/schemas
+scriptdatadir = $(prefix)/lib/scripts
+
+HTMLINDEX = $(abs_top_builddir)/doc/00tools/mk-index-html.sh
+
+ORACCIFY = $(abs_top_builddir)/oracc-subst.sh $(DESTDIR)$(prefix)
+
+ORDERXML = $(abs_top_builddir)/doc/00tools/mk-index.plx -s <order.txt
+
+NO_ORDERXML = $(abs_top_builddir)/doc/00tools/mk-index.plx
+
+#all-local:
+#	$(bindir)/xdfmanager.plx
+
+#clean-local:
+#	rm -fr html
+
+#install-data-local:
+#	$(top_srcdir)/oracc-doc-install.sh $(DESTDIR)$(prefix) $(top_srcdir)

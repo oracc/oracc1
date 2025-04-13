@@ -1,0 +1,53 @@
+#!/usr/bin/perl
+use warnings; use strict;
+use lib '@@ORACC@@/lib/';
+use ORACC::Wrapper2;
+
+my $translangs = '';
+
+if (-r '01tmp/translangs') {
+    my $translangs = `cat 01tmp/translangs`;
+    my @translangs = split(/\s+/, $translangs);
+    push (@translangs, 'en') unless $#translangs >= 0;
+    foreach my $t (@translangs) {
+	ORACC::Wrapper2::xslt(from=>'xmd',
+			      to=>'html',
+			      script=>'@@ORACC@@/lib/scripts/p3-htmlview.xsl',
+			      trans=>$t
+	    );
+    }
+} else {
+	ORACC::Wrapper2::xslt(from=>'xmd',
+			      to=>'html',
+			      script=>'@@ORACC@@/lib/scripts/p3-htmlview.xsl'
+	    );
+}
+1;
+
+__END__
+
+=head1 NAME
+
+htmlview.plx -- wrapper for @@ORACC@@/lib/scripts/htmlview.xsl
+
+=head1 SYNOPSIS
+
+htmlview.plx [-verbose | -quiet | -help | -man] [-list filelists | FILES]
+
+=head1 DESCRIPTION
+
+A wrapper program which applies @@ORACC@@/lib/scripts/p3-htmlview.xsl 
+to files.  Input files have extension 'xmd'; output files have 
+extension 'html'.
+
+=head1 AUTHOR
+
+Steve Tinney (stinney@sas.upenn.edu)
+
+=head1 COPYRIGHT
+
+Copyright(c) Steve Tinney 2006.
+
+Released under the Gnu General Public License
+(http://www.gnu.org/copyleft/gpl.html).
+

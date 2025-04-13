@@ -1,0 +1,30 @@
+body { font-family: Constantia, Georgia, "Times New Roman", serif }
+
+.project-float { clear: both;
+	  float: left;
+	  margin-left: 0px;
+	  margin-right: 5px;
+	  margin-top: 0;
+	  margin-bottom: 0;
+	  padding-right: 5px; 
+	  padding-top: 0;
+	  padding-bottom: 0;
+	}
+
+p.proj-blurb { margin: 0; padding: 0; }
+
+p.proj-img   { margin: 0; padding: 0; }
+
+a { text-decoration: none; }
+
+img { border: none; }
+
+div.project-news { border: none; padding: 0; margin: 0; }
+
+div.outer { border-top: 4px solid red; border-bottom: 4px solid red; padding-bottom: .5em; width: 650px; margin: auto; }
+
+div.mid { clear: both; padding-top: .5em; }
+
+h1.news { font-size: 12pt; margin-top: .1em; margin-bottom: .5em; border-bottom: 2px solid black; border-top: 4px solid red; }
+
+h1 { font-size: 12pt; margin-top: .1em; margin-bottom: .5em; border-bottom: 2px solid black; }
