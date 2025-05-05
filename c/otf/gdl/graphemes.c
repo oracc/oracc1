@@ -25,6 +25,8 @@
 
 #define is_signlist(s) sll_is_signlist((const char *)(s))
 
+int key_warn_all = 0;
+
 #undef curr_lang
 #define curr_lang curr_lang_ctxt
 
@@ -557,8 +559,11 @@ gparse(register unsigned char *g, enum t_type type)
 		  *x = '\0';
 		}
 	    }
-	  else if (!strchr((ccp)g, 'X') && !inner_bang && !strchr((ccp)g, 'N'))
-	    vwarning("(gvl) unable to make key from grapheme %s", g);
+	  else
+	    {
+	      if (key_warn_all || (!strchr((ccp)g, 'X') && !inner_bang && strcmp((ccp)g, "N")))
+		vwarning("(gvl) unable to make key from grapheme %s", g);
+	    }
 	}
 	  
       if (mess && !inner_qual && !inner_parse)
