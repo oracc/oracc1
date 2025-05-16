@@ -538,7 +538,7 @@ gparse(register unsigned char *g, enum t_type type)
   
   unsigned const char *gb_cun = NULL;
   unsigned const char *gb_a2u = NULL;
-  const char *gb_key = NULL, *gb_oid = NULL, *gb_spoid = NULL, *gb_ucode = NULL;
+  const char *gb_key = NULL, *gb_oid = NULL, *gb_spoid = NULL, *gb_ucode = NULL, *gb_seq = NULL;
 
   render_canonically = compound_warnings;
   if (curr_lang->core->sindex != -1 && !gdl_bootstrap)
@@ -547,6 +547,7 @@ gparse(register unsigned char *g, enum t_type type)
       gb_oid = gvl_bridge_oid();
       gb_spoid = gvl_bridge_spoid();
       gb_ucode = gvl_bridge_ucode();
+      gb_seq = gvl_bridge_seq(gb_oid);
 
       if (g_s == type || g_v == type || g_n == type || g_c == type)
 	{
@@ -818,6 +819,8 @@ gparse(register unsigned char *g, enum t_type type)
 		  vwarning("OID %s does not have a name in the current sign list", gb_spoid);
 		}
 	    }
+	  if (gb_seq)
+	    appendAttr(gp->xml,gattr(a_seq,(uccp)gb_seq));
 	}
 
       if (gp->xml && (gp->gflags & GFLAGS_DOTS))

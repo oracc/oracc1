@@ -121,6 +121,7 @@ struct xname anames[] =
   { "score-word", "score-word" },
   { "scr", "scr" },
   { "sense", "sense" },
+  { "seq", "seq" },
   { "sexified", "sexified" },
   { "sigref", "sigref" },
   { "silent", "silent" },
@@ -339,6 +340,7 @@ struct attr abases[] =
   { { anames[157].qname,NULL } , { anames[157].pname,NULL } },
   { { anames[158].qname,NULL } , { anames[158].pname,NULL } },
   { { anames[159].qname,NULL } , { anames[159].pname,NULL } },
+  { { anames[160].qname,NULL } , { anames[160].pname,NULL } },
 };
 struct xname enames[] =
 {

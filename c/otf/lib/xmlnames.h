@@ -114,6 +114,7 @@ enum a_type
   a_score_word,
   a_scr,
   a_sense,
+  a_seq,
   a_sexified,
   a_sigref,
   a_silent,
