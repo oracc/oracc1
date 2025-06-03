@@ -13,6 +13,8 @@ include ../../oracc-am-rules.txt
 # cgibin_SCRIPTS=slse
 #texdata_DATA = slmac.tex repmac.tex
 
+scriptdata_DATA=sl-compounds.xsl
+
 #scriptdata_DATA = sl-TeX.xsl rep-sl.xsl sl-HTML.xsl sl-sort.xsl \
 #	sl-number.xsl sl-missing-sort.xsl rep-TeX.xsl \
 #	sl-ESP-structure.xsl sl-ESP-letters.xsl sl-ESP-signs.xsl \

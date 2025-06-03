@@ -24,7 +24,7 @@ $ORACC::SL::report_all = 0;
 @ORACC::SL::BaseC::last_tlit = '';
 #@ORACC::SL::fixes_needed = ();
 
-my $db_file = "@@ORACC@@/pub/ogsl/sl";
+my $db_file = "@@ORACC@@/pub/osl/sl";
 my $db_name = 'sl';
 
 my %db = ();
@@ -88,7 +88,7 @@ sub tlit_sig {
 }
 
 # Use this when you know the input $test string is clean and
-# conforms to OGSL sign name rules
+# conforms to OSL sign name rules
 sub tlit_sig_clean {
     my($context,$test) = @_;
     my $s = _signature($context,tlitsplit($test,0));
@@ -106,7 +106,7 @@ init {
     
     if ($g eq 'g') {
 	$g = " -g";
-	my $tsv_file = "@@ORACC@@/pub/ogsl/sl/sl.tsv";
+	my $tsv_file = "@@ORACC@@/pub/osl/sl/sl.tsv";
 	if (-r $tsv_file) {
 	    $loaded = 1;
 	} else {
@@ -115,7 +115,7 @@ init {
     } else {
 	$g = '';
         # check if the sldb exists
-	my $db_file = "@@ORACC@@/pub/ogsl/sl";
+	my $db_file = "@@ORACC@@/pub/osl/sl";
 	my $db_name = 'sl';
 	if (-r "$db_file/$db_name.dbh") {
 	    $loaded = 1;

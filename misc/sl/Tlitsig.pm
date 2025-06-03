@@ -14,7 +14,7 @@ my $pedantic = 0;
 sub
 init {
     return if $loaded;
-    my $tsv_file = "@@ORACC@@/pub/ogsl/sl/sl.tsv";
+    my $tsv_file = "@@ORACC@@/pub/osl/sl/sl.tsv";
     if (-r $tsv_file) {
 	$loaded = 1;
     } else {
