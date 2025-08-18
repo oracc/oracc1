@@ -221,6 +221,7 @@ enum e_type
   e_g_s,
   e_g_surro,
   e_g_swc,
+  e_g_t,
   e_g_v,
   e_g_w,
   e_g_x,

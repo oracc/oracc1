@@ -386,6 +386,7 @@ struct xname enames[] =
   { "g:s", "http://oracc.org/ns/gdl/1.0:s" },
   { "g:surro", "http://oracc.org/ns/gdl/1.0:surro" },
   { "g:swc", "http://oracc.org/ns/gdl/1.0:swc" },
+  { "g:t", "http://oracc.org/ns/gdl/1.0:t" },
   { "g:v", "http://oracc.org/ns/gdl/1.0:v" },
   { "g:w", "http://oracc.org/ns/gdl/1.0:w" },
   { "g:x", "http://oracc.org/ns/gdl/1.0:x" },
