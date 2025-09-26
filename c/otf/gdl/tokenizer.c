@@ -1719,7 +1719,10 @@ tokenize(register unsigned char *l,unsigned char *e)
 		  last_text_or_bound = bound;
 		  tokens[tokindex] = clone_token(static_tokens[boundary[*l]]);
 		  if (ztoken)
-		    tokens[tokindex]->type = ztoken;
+		    {
+		      tokens[tokindex]->type = ztoken;
+		      ztoken = notoken;
+		    }
 		  ++tokindex;
 		}
 	      if (left_square_pending)

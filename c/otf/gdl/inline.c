@@ -31,7 +31,7 @@ extern char *new_note_id(int);
 
 int ods_cols = 0;
 int ods_mode = 0;
-static int z_pending;
+static int z_pending = 0;
 int suppress_lem = 0;
 
 static int grouped_det = 0; /* a bandaid to separate 
