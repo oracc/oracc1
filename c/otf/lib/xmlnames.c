@@ -95,6 +95,7 @@ struct xname anames[] =
   { "kkey", "kkey" },
   { "l", "l" },
   { "label", "label" },
+  { "label2", "label2" },
   { "lang", "lang" },
   { "lemma", "lemma" },
   { "level", "level" },
@@ -347,6 +348,7 @@ struct attr abases[] =
   { { anames[161].qname,NULL } , { anames[161].pname,NULL } },
   { { anames[162].qname,NULL } , { anames[162].pname,NULL } },
   { { anames[163].qname,NULL } , { anames[163].pname,NULL } },
+  { { anames[164].qname,NULL } , { anames[164].pname,NULL } },
 };
 struct xname enames[] =
 {

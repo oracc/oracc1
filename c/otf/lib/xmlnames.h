@@ -88,6 +88,7 @@ enum a_type
   a_kkey,
   a_l,
   a_label,
+  a_label2,
   a_lang,
   a_lemma,
   a_level,
