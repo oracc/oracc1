@@ -1494,7 +1494,6 @@ process_words(struct node *parent, int start, int end, int with_word_list)
 	      break;
 	    case zhyphen:
 	      z_pending = 1;
-	      break;
 	    case hyphen:
 	      {
 		struct node *hyphme;
