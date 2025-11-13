@@ -9,7 +9,8 @@ g.meta =
   damageStart? , damageEnd? ,
   surroStart? , surroEnd? ,
   statusStart? , statusEnd? ,
-  accented? , a_key? , a_oid? , a_spoid? , a_spform? , cuneifont? , a_seq?
+  accented? , a_key? , a_oid? , a_spoid? , a_spform? ,
+  cuneifont? , a_seq?, gtag?
 
 accented = attribute g:accented { text }
 breakStart = attribute g:breakStart { "1" }

@@ -14,7 +14,7 @@ proto.outer = element protocols {
 
 proto.start = element protocols {
   attribute scope { text },
-  (  proto.atf | proto.bib | proto.etcsl | proto.key | proto.lemmatizer 
+  (  proto.atf | proto.bib | proto.cfy | proto.etcsl | proto.key | proto.lemmatizer 
      | proto.link | proto.project | proto.syntax | proto.version )*
 }
 
@@ -26,6 +26,7 @@ proto.inter = proto.bib | proto.etcsl | proto.lem | proto.link
 proto.atf    = element protocol { attribute type { "atf" }    , text }
 proto.basket = element protocol { attribute type { "basket" } , text }
 proto.bib    = element protocol { attribute type { "bib" }    , text }
+proto.cfy    = element protocol { attribute type { "cfy" }    , text }
 proto.etcsl  = element protocol { attribute type { "etcsl" }  , text }
 proto.key    = element protocol { ( attribute type { "key" }  , text )
 				  |(attribute type { "key" } , 
@@ -301,7 +302,7 @@ lg = element lg {
 }
 bil = element l { attribute type { "bil" } , l.inner* }
 nts = element l { attribute type { "nts" } , (ag | l.inner)* }
-lgs = element l { attribute type { "lgs" } , grapheme* }
+lgs = element l { attribute type { "lgs" } , (word | grapheme)* }
 gus = element l { attribute type { "gus" } , l.inner* }
 var = element v { 
   attribute varnum { text | "*" } ,
