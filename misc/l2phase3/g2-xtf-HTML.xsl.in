@@ -587,7 +587,7 @@
 </xsl:template>
 
 <xsl:template name="span-lnum">
-  <span class="lnum">
+  <span class="lnum xlnum">
     <xsl:if test="$render-surface-inits='yes'
 		 and count(preceding-sibling::*) = 0">
       <xsl:if test="not(ancestor::xtf:surface/@implicit)">
@@ -653,7 +653,7 @@
 	    <xsl:text>lnuml</xsl:text>
 	  </xsl:when>
 	  <xsl:otherwise>
-	    <xsl:text>lnum</xsl:text>
+	    <xsl:text>lnum xxx</xsl:text>
 	  </xsl:otherwise>
 	</xsl:choose>
       </xsl:variable>
@@ -892,6 +892,9 @@
       <xsl:choose>
 	<xsl:when test="self::xtf:mpx">
 	  <xsl:value-of select="../@label"/>
+	</xsl:when>
+	<xsl:when test="@label2">
+	  <xsl:value-of select="@label2"/>
 	</xsl:when>
 	<xsl:when test="not(@label)">
 	  <xsl:value-of select="@n"/>
