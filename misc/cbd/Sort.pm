@@ -77,8 +77,12 @@ set_cgc {
 	print TMP "${tx}_\n";
     }
     close TMP;
+    # Redo msort call with osort: -s is stable (mergesort); -j -q -l not needed;
+    # -s and -x not used atm--if they prove necessary they will be reimplemented
+    # --out is -o
+    system 'osort', '-s', '-k1', '-o', $tmpname, $tmpname;
     # use -a I(nsertion) algorithm because it's stable and the default quicksort is not
-    system 'msort', '-a', 'I', '-j', '--out', $tmpname, '-ql', '-n1', '-s', '@@ORACC@@/lib/config/msort.order', '-x', '@@ORACC@@/lib/config/msort.exclude', $tmpname;
+#    system 'msort', '-a', 'I', '-j', '--out', $tmpname, '-ql', '-n1', '-s', '@@ORACC@@/lib/config/msort.order', '-x', '@@ORACC@@/lib/config/msort.exclude', $tmpname;
     open(TMP,$tmpname);
     my @cgc = (<TMP>);
     close(TMP);

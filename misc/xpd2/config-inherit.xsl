@@ -12,7 +12,6 @@
   <project>
     <xsl:copy-of select="@n"/>
     <xsl:apply-templates/>
-    <option name="l2" value="yes"/>
     <inherit project="{$inherit-from}"/>
   </project>
 </xsl:template>

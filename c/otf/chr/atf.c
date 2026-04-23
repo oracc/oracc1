@@ -1,4 +1,5 @@
 #include <locale.h>
+#include "../o1.h"
 #include "atf.h"
 #include "oracclocale.h"
 void

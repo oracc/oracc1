@@ -24,7 +24,10 @@ c1c2gvl(const char *f, size_t l, unsigned const char *g, int s)
 {
   if (g)
     {
+      extern const char *curr_word_id(void);
+      extern void gdl_set_word_id(const char *);
       const char *mess = NULL;
+      gdl_set_word_id(curr_word_id());
       mess = gvl_bridge(f, l, g, s);
       if (mess)
 	{

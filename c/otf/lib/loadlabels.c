@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <string.h>
+#include "../o1.h"
 #include <psd_base.h>
 #include <runexpat.h>
 #include <fname.h>

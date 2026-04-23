@@ -10,6 +10,7 @@
 #include <unictype.h>
 #endif
 
+#include "../o1.h"
 #include <c1_list.h>
 #include "globals.h"
 #include "cdf.h"
@@ -33,6 +34,7 @@
 #include "note.h"
 #include "wordmatrix.h"
 #include "symbolattr.h"
+#include "etcsl.h"
 
 extern int lem_autolem, mylines;
 extern void set_tr_id(const char *id);
@@ -1868,6 +1870,12 @@ line_mts(unsigned char *lp)
       set_tr_id(line_id_buf);
     }
   xid = attr(a_xml_id,ucc(line_id_buf));
+  if (etcsl_labels)
+    {
+      if (etcsl_lid)
+	free((void*)etcsl_lid);
+      etcsl_lid = strdup(line_id_buf);
+    }
   if (lg_mode)
     line_id_buf[strlen(line_id_buf)-1] = '\0';
   if (last_tlit_h_decay)

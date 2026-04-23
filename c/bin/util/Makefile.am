@@ -11,7 +11,7 @@ bin_PROGRAMS=haslinks haslinks1 isogmt \
 	jpegsize linkfiles gdf labeltable unittable \
 	newext oraccopt pqunion sigfixer sigmap xmlnl \
 	xmlns xmlsplit utf8v xfrag filesize listdir \
-	xns wid2err rootnode wid2lem xis2json linksets \
+	xns rootnode xis2json linksets \
 	xtfsigs oxg pllcfg
 
 xis2json_SOURCES=xis2json.c

@@ -1,6 +1,7 @@
 extern int agroups;
 extern int bilingual;
 extern int lexical;
+extern int lnum_labels;
 extern int math_mode;
 extern int mylines;
 extern int saa_mode;

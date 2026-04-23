@@ -3,10 +3,12 @@ if [ "$1" = "" ]; then
     echo config-inherit.sh: must give project to inherit from
     exit 1
 fi
-self=`oraccopt`
-if [ "$1" = "$self" ]; then
-    echo config-inherit.sh: inheriting from self not allowed
-    exit 1
+if [ -r 02xml/config.xml ]; then
+    self=`oraccopt`
+    if [ "$1" = "$self" ]; then
+	echo config-inherit.sh: inheriting from self not allowed
+	exit 1
+    fi
 fi
 if [ ! -r $ORACC/xml/$1/config.xml ]; then
     echo config-inherit.sh: no $ORACC/xml/$1/config.xml to inherit from

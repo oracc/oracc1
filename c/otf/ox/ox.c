@@ -8,6 +8,7 @@
 #include <string.h>
 #include <ctype128.h>
 #include <stdarg.h>
+#include "../o1.h"
 #include "warning.h"
 #include "atffile.h"
 #include "gdl.h"
@@ -225,4 +226,4 @@ const char *prog = "ox";
 int major_version = OX_VERSION;
 int minor_version = 1;
 const char *usage_string = "";
-int opts() {return 0;}
+int opts(void) {return 0;}

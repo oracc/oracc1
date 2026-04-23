@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include "../o1.h"
 #include "cdf.h"
 #include "labtab.h"
 

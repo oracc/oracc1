@@ -772,13 +772,16 @@ sub slse { slseA(@_) };
 sub
 slseA {
     # warn "slseA: trying $_[0]\n";
-    print SL_IN "$_[0]\n";
+    my $in = $_[0];
+    $in =~ s/\{\+/\{/g;
+    $in =~ tr/{}//d;
+    print SL_IN "$in\n";
     my $res = <SL_OUT>;
     if (defined $res) {
 	chomp($res);
 	# warn "slseA: got '$res'\n";
     } else {
-	warn "$0: ORACC::SL::BaseC: slseA internal error on input $_[0]\n";
+	warn "$0: ORACC::SL::BaseC: slseA internal error on input $_[0] => $in\n";
 	$res = '';
     }
     $res;

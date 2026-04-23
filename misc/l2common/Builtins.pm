@@ -1754,7 +1754,8 @@ set_cgc {
 	print TMP "${tx}_\n";
     }
     close TMP;
-    system 'msort', '-j', '--out', $tmpname, '-ql', '-n1', '-s', '@@ORACC@@/lib/config/msort.order', '-x', '@@ORACC@@/lib/config/msort.exclude', $tmpname;
+    system 'osort', '-o', $tmpname, $tmpname;
+#    system 'msort', '-j', '--out', $tmpname, '-ql', '-n1', '-s', '@@ORACC@@/lib/config/msort.order', '-x', '@@ORACC@@/lib/config/msort.exclude', $tmpname;
     open(TMP,$tmpname);
     my @cgc = (<TMP>);
     close(TMP);

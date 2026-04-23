@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "globals.h"
 #include "xpd2.h"
+#include "../o1.h"
 #include "memblock.h"
 #include "l2.h"
 #include "tree.h"
@@ -32,6 +33,7 @@
 #include "proj_context.h"
 #include "xmd.h"
 #include <gvl_bridge.h>
+#include "etcsl.h"
 
 #define QVEC_BYTES	5000
 #define QVEC_SIZ	(QVEC_BYTES*8)
@@ -269,6 +271,13 @@ process_text(struct run_context *run, unsigned char **lines)
   if (need_lemm)
     lem_save_line(*lines);
 
+  if (etcsl_labels)
+    {
+      npool_term(etcsl_pool);
+      hash_free(etcsl_labels, NULL);
+      etcsl_labels = NULL;
+    }      
+  
   note_initialize_line();
   andline(text,*lines);
 

@@ -37,6 +37,10 @@
 const char *const scope_names[] = { T_SCOPES };
 enum t_scope protocol_state = s_global;
 
+struct npool *etcsl_pool = NULL;
+Hash_table *etcsl_labels = NULL;
+const char *etcsl_lid = NULL;
+
 extern const unsigned char *default_ftype;
 extern int atf_needs_xmd;
 extern int has_links;
@@ -271,6 +275,13 @@ project_of(const char *p)
 }
 #endif
 
+void
+etcsl_label(const char *l)
+{
+  l = strchr(l, '=') + 1;
+  hash_add(etcsl_labels, npool_copy(l, etcsl_pool), npool_copy(etcsl_lid, etcsl_pool));
+}
+
 int
 protocol(struct run_context *run,
 	 enum t_scope scope, enum block_levels level,
@@ -386,7 +397,13 @@ protocol(struct run_context *run,
 	    }
 	  else if (!xstrcmp(type,"etcsl"))
 	    {
-	      ;
+	      if ('t' == *line)
+		{
+		  etcsl_labels = hash_create(128);
+		  etcsl_pool = npool_init();
+		}
+	      else
+		etcsl_label(line);
 	    }
 	  else if (!xstrcmp(type,"note"))
 	    {
@@ -572,6 +589,8 @@ atf_handler(struct node *parent, enum t_scope scope,
 	}
       else if (!xstrncmp(l,"mylines",7))
 	mylines = 1;
+      else if (!xstrncmp(l,"line-labels",7))
+	lnum_labels = 1;
       else if (!xstrncmp(l,"alignment-groups",15))
 	agroups = 1;
       else if (!xstrncmp(l,"math",4))

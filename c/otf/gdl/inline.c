@@ -4,6 +4,7 @@
 #include <string.h>
 #include "warning.h"
 #include "globals.h"
+#include "../o1.h"
 #include <cdf.h>
 #include "tree.h"
 #include "tokenizer.h"

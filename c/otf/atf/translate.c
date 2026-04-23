@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype128.h>
+#include "../o1.h"
 #include "cdf.h"
 #include "gdl.h"
 #include "nonx.h"

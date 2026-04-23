@@ -2,6 +2,7 @@
 #include <string.h>
 #include <wctype.h>
 #include <ctype.h>
+#include "../o1.h"
 #include "c1_list.h"
 #include "cdf.h"
 #include "memblock.h"
