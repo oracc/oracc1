@@ -64,14 +64,15 @@ ngdebug(const char *mess,...)
 }
 
 void
-ngramify_init()
+ngramify_init(void)
 {
   if (ng_match_logging && !ng_match_log)
     {
       ng_match_log = fopen("01tmp/ng_match.log", "wb");
       if (NULL == ng_match_log)
 	{
-	  fprintf(stderr, "ngramify_init: couldn't open 01tmp/ng_match.log--no ngram match logging will be done.\n");
+	  if (verbose)
+	    fprintf(stderr, "ngramify_init: couldn't open 01tmp/ng_match.log--no ngram match logging will be done.\n");
 	  ng_match_logging = 0;
 	}
     }
@@ -86,7 +87,7 @@ ngramify_init()
     ngramify_mem = list_create(LIST_SINGLE);
 }
 void
-ngramify_reset()
+ngramify_reset(void)
 {
   match_list->matches_used = 0;
 #if 0
@@ -96,7 +97,7 @@ ngramify_reset()
 }
 
 void
-ngramify_term()
+ngramify_term(void)
 {
   if (match_list)
     {
