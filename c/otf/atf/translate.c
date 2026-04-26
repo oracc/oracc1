@@ -1264,12 +1264,12 @@ curr_trans_tree(void)
 }
 
 int
-has_trans()
+has_trans(void)
 {
   return ntrans;
 }
 void
-init_trans()
+init_trans(void)
 {
   ntrans = 0;
   *last_xid = '\0';
@@ -1508,6 +1508,14 @@ trans_inline(struct node*parent,unsigned char *text,const char *until, int with_
 		    }
 		  if (s > start)
 		    {
+		      /* @q[from,to]{...} */
+		      if ('[' == *s)
+			{
+			  *s++ = '\0';
+			  s = strchr(s, ']');
+			  if (s)
+			    ++s;
+			}
 		      if ('{' == *s)
 			{
 			  struct node *span = appendChild(parent,elem(e_xh_span,
@@ -1801,7 +1809,7 @@ trwords_w(struct node *p, unsigned char *s)
 }
 
 void
-trans_clear()
+trans_clear(void)
 {
   add_trans(NULL);
   free(itrans);
@@ -1932,6 +1940,27 @@ xid_line(const char *x)
     return 0;
 }
 
+static int
+xid_vchk(const char *x, int from, int to)
+{
+  extern Hash_table *vreg;
+  char buf[strlen(x)+1], *bufp;
+  int v = 0;
+  strcpy(buf, x);
+  if ((bufp = strchr(buf, '.')))
+    {
+      ++bufp;
+      while (from < to)
+	{
+	  sprintf(bufp, "%d", from++);
+	  void *vp = hash_find(vreg, (uccp)buf);
+	  if (vp)
+	    v += (uintptr_t)vp;
+	}
+    }
+  return v;
+}
+
 /*WATCHME: this only works perfectly if the line id mechanism
   increments the line id by 1 for each line_mts--the current
   implementation may be good enough for extant uses */
@@ -1941,7 +1970,8 @@ xid_diff(const char *x1, const char *x2)
   int i1,i2;
   i1 = xid_line(x1);
   i2 = xid_line(x2);
-  return i1-i2;
+  int v = xid_vchk(x2, i2, i1);
+  return (i1-i2)+v;
 }
 
 static const char *

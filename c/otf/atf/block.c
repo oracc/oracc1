@@ -92,6 +92,7 @@ static enum f_type flags = f_none;
 
 unsigned const char *curr_discourse;
 
+Hash_table *vreg;
 Hash_table *last_tlit_h_hash = NULL;
 static struct node **last_tlit_h = NULL;
 static int lth_alloced = 0;
@@ -2083,6 +2084,18 @@ compute_fragid(const char *qualid, const char *hlid)
 }
 
 static void
+v_register(const char *id)
+{
+  if (!vreg)
+    vreg = hash_create(128);
+  char *v = hash_find(vreg, (uccp)id);
+  if (!v)
+    hash_add(vreg, pool_copy((uccp)id), (void*)(uintptr_t)1);
+  else
+    hash_add(vreg, (uccp)id, ++v);
+}
+
+static void
 line_var(unsigned char *lp)
 {
   struct node *lnode = elem(e_v,NULL,lnum,LINE);
@@ -2103,6 +2116,8 @@ line_var(unsigned char *lp)
   
   /* appendAttr(lnode,attr(a_type,ucc("var"))); */
 
+  v_register(line_id_buf);
+  
   (void)sprintf(line_id_buf+strlen(line_id_buf),(const char *)"v%d", exemplar_offset);
   set_tr_id(line_id_buf);
   xid = attr(a_xml_id,ucc(line_id_buf));
