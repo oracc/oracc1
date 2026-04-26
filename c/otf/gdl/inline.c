@@ -856,17 +856,14 @@ next_b_or_g(ssize_t tindex)
 }
 
 #define emit_vari() \
-  if (pending_varo) \
-    { \
-      if (pending_varo == 2) \
-	{ \
-	  struct node *np = elem(e_g_nonw,NULL,lnum,WORD); \
-	  set_nonw_id(np); \
-	  appendAttr(np,attr(a_type, ucc("vari"))); \
-	  appendChild(np,textNode((unsigned char*)(tokens[varo_tok]->data))); \
-	  appendChild(parent,np); \
-	} \
-      pending_varo = 0; \
+  if (pending_varo == 2) \
+    {							   \
+      struct node *np = elem(e_g_nonw,NULL,lnum,WORD);	   \
+      set_nonw_id(np);					   \
+      appendAttr(np,attr(a_type, ucc("vari")));				\
+      appendChild(np,textNode((unsigned char*)(tokens[varo_tok]->data))); \
+      appendChild(parent,np);						\
+      pending_varo = 0;							\
     }
 
 static void
