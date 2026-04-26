@@ -505,7 +505,16 @@ trans_finish_labels(struct node *text, struct translation *tp)
 	      const char *refid = (const char *)getAttr(last_trans_node,"xtr:ref");
 	      if (*refid && strcmp(refid,xid))
 		{
-		  int interval = xid_diff((const char*)xid,(const char *)last_xid);
+		  char xxid[128], *xp;
+		  strcpy(xxid, xid);
+		  xp = strchr(xxid, '.');
+		  if (xp)
+		    {
+		      ++xp;
+		      int xi = atoi(xp);
+		      sprintf(xp, "%d", xi+1);
+		    }
+		  int interval = xid_diff((const char*)xxid,(const char *)last_xid);
 		  char buf[10];
 		  sprintf(buf,"%d",interval);
 		  removeAttr(last_trans_node,"xtr:ref");
