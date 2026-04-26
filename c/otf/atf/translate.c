@@ -1512,7 +1512,7 @@ trans_inline(struct node*parent,unsigned char *text,const char *until, int with_
 		      if ('[' == *s)
 			{
 			  *s++ = '\0';
-			  s = strchr(s, ']');
+			  s = (ucp)strchr((char*)s, ']');
 			  if (s)
 			    ++s;
 			}
@@ -1554,7 +1554,7 @@ trans_inline(struct node*parent,unsigned char *text,const char *until, int with_
 	      ++s;
 	      break;
 	    case '}':
-	      if (nested_curly > 0)
+	      if (nested_curly > 0 && !ocurly)
 		{
 		  --nested_curly;
 		  ++s;
@@ -1678,7 +1678,20 @@ textwords(struct node *p, unsigned char *start, unsigned char *end)
 static void
 protect_roman(struct node *w, unsigned char *start)
 {
-  if (strpbrk((const char *)start,"[]()"))
+  if (!start[1] && ('{' == *start || '}' == *start))
+    {
+#if 0
+      struct node *p = w->parent;
+      struct node *xw = removeLastChild(p);
+#endif
+      struct node *span = appendChild(w,elem(e_xh_span,NULL,lnum,FIELD));
+      setClass(span,"varcurly");
+      appendChild(span,textNode(ucc(start)));
+#if 0
+      appendChild(p,xw);
+#endif
+    }
+  else if (strpbrk((const char *)start,"[]()"))
     {
       unsigned char *formbuf = malloc(strlen((const char *)start)), *formbufp = formbuf, *s;
       s = start;
